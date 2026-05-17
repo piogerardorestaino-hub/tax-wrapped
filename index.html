@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Tax Wrapped 2026 — Il tuo anno fiscale, svelato</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,Roboto,sans-serif;color:#fff;overflow:hidden;background:#000}
+@supports(padding:max(0px)){body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}}
+#app{position:relative;width:100%;height:100vh;height:100dvh;max-width:480px;margin:0 auto;overflow:hidden;background:#000}
+
+/* =========== SHARED =========== */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:24px;opacity:0;pointer-events:none;transition:opacity .4s ease}
+.screen.active{opacity:1;pointer-events:auto}
+.scrollable{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.btn{background:#fff;color:#000;border:none;padding:18px 32px;border-radius:100px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s ease}
+.btn:active{transform:scale(0.96)}
+.btn-primary{background:#fff;color:#000;box-shadow:0 8px 32px rgba(255,255,255,0.2)}
+.btn-ghost{background:rgba(255,255,255,0.15);color:#fff;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2)}
+.btn-block{width:100%}
+
+/* =========== SPLASH =========== */
+#screen-splash{justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#FF1493 0%,#FFD700 50%,#00FFB3 100%);overflow:hidden}
+#screen-splash::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.3),transparent 50%);pointer-events:none}
+.sp-tag{font-size:11px;letter-spacing:6px;font-weight:700;opacity:0;animation:fadeUp .6s .2s forwards}
+.sp-title{font-size:84px;font-weight:900;line-height:0.85;letter-spacing:-3px;margin:16px 0;opacity:0;animation:fadeUp .8s .5s forwards;color:#000}
+.sp-title small{display:block;font-size:32px;letter-spacing:8px;font-weight:700;color:#fff;margin-top:8px}
+.sp-sub{font-size:18px;line-height:1.4;max-width:300px;opacity:0;animation:fadeUp .8s .9s forwards;font-weight:500;color:#000}
+.sp-cta{margin-top:40px;opacity:0;animation:fadeUp .8s 1.3s forwards;position:relative;z-index:2}
+.sp-cta .btn{background:#000;color:#fff;padding:20px 40px;font-size:18px}
+.sp-meta{margin-top:24px;font-size:16px;color:#000;font-weight:700;font-style:italic;line-height:1.4;max-width:320px;opacity:0;animation:fadeUp .8s 1.5s forwards}
+
+/* =========== ONBOARDING =========== */
+#screen-onboarding{background:linear-gradient(180deg,#F2F6FC 0%,#DDE8F5 60%,#C5D9F0 100%);justify-content:flex-start;padding-top:48px;color:#0B3D91;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#screen-onboarding::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0B3D91 0%,#0B3D91 70%,#EA6020 70%,#EA6020 100%);z-index:5}
+.onb-brand{background:#fff;color:#0B3D91;font-size:9px;letter-spacing:2.5px;font-weight:800;padding:6px 12px;border-radius:6px;display:inline-block;align-self:flex-start;margin-bottom:20px;border:1px solid rgba(11,61,145,0.15);box-shadow:0 1px 3px rgba(11,61,145,0.08)}
+.onb-head{margin-bottom:28px}
+.onb-step{font-size:10px;letter-spacing:3px;color:#EA6020;font-weight:800;margin-bottom:10px;text-transform:uppercase}
+.onb-title{font-size:34px;font-weight:900;line-height:1.05;letter-spacing:-1px;color:#0B3D91}
+.onb-q{background:#fff;border:1px solid rgba(11,61,145,0.12);border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 2px 12px rgba(11,61,145,0.06)}
+.onb-q-text{font-size:14px;font-weight:700;margin-bottom:12px;color:#0B3D91}
+.onb-opts{display:flex;flex-wrap:wrap;gap:6px}
+.onb-opt{padding:10px 16px;background:#F0F5FB;border:1.5px solid rgba(11,61,145,0.15);border-radius:8px;font-size:13px;font-weight:700;color:#0B3D91;cursor:pointer;transition:all .15s ease}
+.onb-opt:active{transform:scale(0.94)}
+.onb-opt.selected{background:#0B3D91;color:#fff;border-color:#0B3D91;box-shadow:0 4px 12px rgba(11,61,145,0.25)}
+.onb-cta{margin-top:20px;padding:0 0 32px}
+.onb-cta .btn{background:#0B3D91;color:#fff;border-radius:8px;box-shadow:0 4px 16px rgba(11,61,145,0.3);font-weight:800}
+.onb-cta .btn:hover{background:#072E70}
+.onb-cta .btn:disabled{background:#B8C7DC;color:#fff;box-shadow:none;pointer-events:none;opacity:1}
+
+/* =========== QUIZ =========== */
+#screen-quiz{background:linear-gradient(180deg,#0B3D91 0%,#1E5BB8 60%,#3B7DD8 100%);justify-content:flex-start;padding-top:16px}
+#screen-quiz::before{content:"";position:absolute;top:0;left:0;right:0;height:48px;background:linear-gradient(180deg,rgba(11,61,145,0.95),transparent);pointer-events:none;z-index:0}
+#screen-quiz::after{content:"AGENZIA DELLE ENTRATE · SIMULAZIONE";position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;font-weight:800;color:rgba(255,255,255,0.45);z-index:1}
+.qz-progress{display:flex;gap:3px;margin-bottom:24px;padding-top:8px}
+.qz-bar{flex:1;height:2px;background:rgba(255,255,255,0.15);border-radius:1px;overflow:hidden}
+.qz-bar.done{background:#EA6020}
+.qz-bar.current{background:rgba(255,255,255,0.4)}
+.qz-bar.current::after{content:"";display:block;height:100%;width:50%;background:#EA6020;animation:progressFill 1s ease infinite alternate}
+.qz-counter{text-align:center;font-size:11px;letter-spacing:4px;color:#FFB347;font-weight:800;margin-top:24px;margin-bottom:8px}
+.qz-setup{text-align:center;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,0.8);text-transform:uppercase;font-weight:700;margin-bottom:24px;padding:4px 14px;background:rgba(255,255,255,0.15);border-radius:100px;display:inline-block;align-self:center}
+.qz-emoji{font-size:96px;text-align:center;margin:8px 0;animation:bounceIn .6s ease}
+.qz-scenario{font-size:22px;line-height:1.3;text-align:center;margin:16px 0 8px;font-weight:600}
+.qz-scenario strong{background:linear-gradient(90deg,#FFB347 0%,#EA6020 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900}
+.qz-question{font-size:18px;font-weight:700;text-align:center;margin:20px 0;color:rgba(255,255,255,0.95)}
+.qz-answers{margin-top:auto;padding-bottom:32px;display:flex;flex-direction:column;gap:10px}
+.qz-btn{padding:18px;border-radius:14px;border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.12);color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .15s ease;position:relative;z-index:2}
+.qz-btn:active{transform:scale(0.97);background:rgba(255,255,255,0.2)}
+.qz-btn.si{border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.18)}
+.qz-btn.no{border-color:rgba(255,179,71,0.5);background:rgba(234,96,32,0.15)}
+.qz-btn.idk{font-size:14px;padding:14px;border-color:rgba(255,255,255,0.2);background:rgba(0,0,0,0.15)}
+
+/* =========== IMPACT OVERLAY (money rain) =========== */
+.impact{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:30;overflow:hidden;pointer-events:none}
+.impact.show{display:flex}
+.impact.gain{background:radial-gradient(ellipse at center,rgba(0,255,179,0.35) 0%,rgba(0,0,0,0.9) 70%);animation:impactGainBg .3s ease forwards}
+.impact.loss{background:radial-gradient(ellipse at center,rgba(255,59,48,0.4) 0%,rgba(0,0,0,0.9) 70%);animation:impactLossBg .3s ease forwards}
+.impact.idk{background:radial-gradient(ellipse at center,rgba(255,215,0,0.3) 0%,rgba(0,0,0,0.9) 70%)}
+.impact-content{text-align:center;position:relative;z-index:2;animation:impactPop .6s cubic-bezier(0.34,1.56,0.64,1) forwards}
+.impact-sign{font-size:96px;font-weight:900;line-height:1;letter-spacing:-4px}
+.impact.gain .impact-sign{color:#00FFB3;text-shadow:0 0 60px rgba(0,255,179,0.7)}
+.impact.loss .impact-sign{color:#FF3B30;text-shadow:0 0 60px rgba(255,59,48,0.7)}
+.impact.idk .impact-sign{color:#FFD700;text-shadow:0 0 60px rgba(255,215,0,0.7)}
+.impact-amount{font-size:80px;font-weight:900;line-height:1;letter-spacing:-3px;margin:4px 0}
+.impact-label{font-size:14px;font-weight:800;letter-spacing:4px;margin-top:8px;opacity:0.9}
+.impact-emoji{position:absolute;font-size:48px;pointer-events:none;opacity:0;z-index:1}
+.impact.gain .impact-emoji{animation:moneyIn 1.5s cubic-bezier(0.16,1,0.3,1) forwards}
+.impact.loss .impact-emoji{animation:moneyOut 1.5s cubic-bezier(0.5,0,0.75,0) forwards}
+.impact.idk .impact-emoji{animation:moneyHesitate 1.5s ease forwards}
+@keyframes impactGainBg{from{opacity:0}to{opacity:1}}
+@keyframes impactLossBg{from{opacity:0}to{opacity:1}}
+@keyframes impactPop{0%{opacity:0;transform:scale(0.3)}60%{opacity:1;transform:scale(1.1)}100%{opacity:1;transform:scale(1)}}
+@keyframes moneyIn{0%{opacity:0;transform:translate(var(--xs),var(--ys)) scale(0.3) rotate(0deg)}30%{opacity:1}100%{opacity:0;transform:translate(0,0) scale(1.2) rotate(360deg)}}
+@keyframes moneyOut{0%{opacity:1;transform:translate(0,0) scale(1.2) rotate(0deg)}100%{opacity:0;transform:translate(var(--xe),var(--ye)) scale(0.4) rotate(720deg)}}
+@keyframes moneyHesitate{0%,100%{opacity:0;transform:translate(0,0) scale(0.5)}50%{opacity:0.7;transform:translate(var(--xs),var(--ys)) scale(1) rotate(15deg)}}
+
+/* =========== STORIES (Wrapped) =========== */
+#screen-stories{padding:0;background:#000;overflow:hidden}
+.story-progress{position:absolute;top:0;left:0;right:0;display:flex;gap:3px;padding:12px 16px;z-index:5}
+.sp-bar{flex:1;height:2px;background:rgba(255,255,255,0.25);border-radius:1px;overflow:hidden}
+.sp-bar-fill{display:block;height:100%;width:0%;background:#fff}
+.sp-bar.done .sp-bar-fill{width:100%}
+.sp-bar.current .sp-bar-fill{animation:storyTimer var(--dur,5000ms) linear forwards}
+.story{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;padding:48px 28px;text-align:center;overflow:hidden}
+.story.active{display:flex;animation:storyEnter .5s ease}
+.story-tap-left{position:absolute;top:40px;left:0;bottom:0;width:30%;z-index:3}
+.story-tap-right{position:absolute;top:40px;right:0;bottom:0;width:70%;z-index:3}
+
+/* Story backgrounds */
+.bg-intro{background:linear-gradient(135deg,#FF1493 0%,#FFD700 100%)}
+.bg-cyan{background:linear-gradient(135deg,#1E40AF 0%,#06B6D4 100%)}
+.bg-mint{background:linear-gradient(135deg,#00FFB3 0%,#06B6D4 100%);color:#000}
+.bg-purple{background:linear-gradient(135deg,#8B5CF6 0%,#EC4899 100%)}
+.bg-orange{background:linear-gradient(135deg,#F97316 0%,#FBBF24 100%);color:#000}
+.bg-red{background:linear-gradient(135deg,#7F1D1D 0%,#DC2626 100%)}
+.bg-shock{background:radial-gradient(ellipse at center,#DC2626 0%,#000 100%)}
+.bg-yellow{background:linear-gradient(135deg,#FBBF24 0%,#F97316 100%);color:#000}
+.bg-emerald{background:linear-gradient(135deg,#10B981 0%,#FBBF24 100%);color:#000}
+.bg-night{background:linear-gradient(135deg,#0F172A 0%,#1E40AF 100%)}
+.bg-pinkfade{background:linear-gradient(180deg,#EC4899 0%,#8B5CF6 100%)}
+.bg-italy{background:linear-gradient(180deg,#008C45 0%,#fff 50%,#CD212A 100%);color:#000}
+.bg-civic{background:linear-gradient(135deg,#0EA5E9 0%,#10B981 50%,#FBBF24 100%);color:#000}
+.bg-celebration{background:linear-gradient(135deg,#10B981 0%,#06B6D4 50%,#FBBF24 100%);color:#000}
+.bg-deep{background:linear-gradient(180deg,#000 0%,#1a0033 100%)}
+
+/* decorative floaty emojis */
+.float-deco{position:absolute;pointer-events:none;opacity:0.18;font-size:80px;animation:floatAround 8s ease-in-out infinite}
+.float-deco.d1{top:8%;left:-5%;animation-delay:0s}
+.float-deco.d2{top:18%;right:-5%;animation-delay:1s}
+.float-deco.d3{bottom:25%;left:0%;animation-delay:2s;font-size:60px}
+.float-deco.d4{bottom:10%;right:5%;animation-delay:3s;font-size:70px}
+.float-deco.d5{top:50%;left:80%;animation-delay:4s;font-size:50px}
+@keyframes floatAround{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(10px,-15px) rotate(8deg)}50%{transform:translate(-8px,12px) rotate(-5deg)}75%{transform:translate(12px,8px) rotate(10deg)}}
+
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.confetti span{position:absolute;top:-10%;font-size:28px;animation:confettiFall 4s linear infinite}
+
+/* Story typography */
+.st-eyebrow{font-size:12px;letter-spacing:6px;font-weight:800;text-transform:uppercase;margin-bottom:24px;opacity:0;animation:fadeUp .6s .2s forwards;position:relative;z-index:2}
+.st-hero{font-size:108px;font-weight:900;line-height:0.9;letter-spacing:-4px;opacity:0;animation:heroIn .8s .3s cubic-bezier(0.16,1,0.3,1) forwards;position:relative;z-index:2}
+.st-hero-md{font-size:78px;font-weight:900;line-height:0.9;letter-spacing:-2px;opacity:0;animation:heroIn .8s .3s cubic-bezier(0.16,1,0.3,1) forwards;position:relative;z-index:2}
+.st-hero-sm{font-size:52px;font-weight:900;line-height:1;letter-spacing:-1px;opacity:0;animation:heroIn .8s .3s cubic-bezier(0.16,1,0.3,1) forwards;position:relative;z-index:2}
+.st-label{font-size:18px;font-weight:600;margin-top:20px;opacity:0;animation:fadeUp .6s .7s forwards;max-width:340px;line-height:1.4;position:relative;z-index:2}
+.st-caption{font-size:14px;font-weight:500;margin-top:14px;opacity:0;animation:fadeUp .6s 1s forwards;max-width:320px;line-height:1.5;opacity:0.85;position:relative;z-index:2}
+.st-emoji{font-size:120px;line-height:1;margin-bottom:12px;opacity:0;animation:emojiBig .8s .2s cubic-bezier(0.34,1.56,0.64,1) forwards;position:relative;z-index:2}
+.st-emoji-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.st-emoji-row span{font-size:64px;opacity:0;animation:emojiBig .6s cubic-bezier(0.34,1.56,0.64,1) forwards}
+.st-emoji-row span:nth-child(1){animation-delay:.2s}
+.st-emoji-row span:nth-child(2){animation-delay:.35s}
+.st-emoji-row span:nth-child(3){animation-delay:.5s}
+.st-emoji-row span:nth-child(4){animation-delay:.65s}
+.st-emoji-row span:nth-child(5){animation-delay:.8s}
+.st-percent{font-size:140px;font-weight:900;line-height:0.85;letter-spacing:-5px;position:relative;z-index:2;opacity:0;animation:heroIn .8s .3s cubic-bezier(0.16,1,0.3,1) forwards}
+.st-percent small{font-size:60px}
+.st-list{text-align:left;width:100%;max-width:340px;position:relative;z-index:2}
+.st-list-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.2);opacity:0;animation:fadeRight .6s forwards}
+.st-list-item:nth-child(1){animation-delay:.4s}
+.st-list-item:nth-child(2){animation-delay:.7s}
+.st-list-item:nth-child(3){animation-delay:1s}
+.st-list-item:nth-child(4){animation-delay:1.3s}
+.st-list-rank{font-size:40px;font-weight:900;width:48px;text-align:center}
+.st-list-content{flex:1}
+.st-list-title{font-size:14px;font-weight:800;line-height:1.2}
+.st-list-meta{font-size:11px;opacity:0.75;margin-top:2px;font-weight:600;letter-spacing:0.5px}
+.st-bars{width:100%;max-width:340px;text-align:left;margin-top:8px;position:relative;z-index:2}
+.st-bar{margin-bottom:14px;opacity:0;animation:fadeUp .5s forwards}
+.st-bar:nth-child(1){animation-delay:.3s}
+.st-bar:nth-child(2){animation-delay:.55s}
+.st-bar:nth-child(3){animation-delay:.8s}
+.st-bar:nth-child(4){animation-delay:1.05s}
+.st-bar:nth-child(5){animation-delay:1.3s}
+.st-bar-head{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:800;margin-bottom:6px}
+.st-bar-pct{font-size:18px;font-weight:900}
+.st-bar-fill{height:8px;background:rgba(0,0,0,0.15);border-radius:6px;overflow:hidden}
+.st-bar-fill span{display:block;height:100%;background:currentColor;border-radius:6px;width:0;animation:barFill 1s cubic-bezier(0.16,1,0.3,1) forwards}
+
+/* Shock counter */
+.shock-num{font-size:130px;font-weight:900;line-height:0.85;letter-spacing:-5px;text-shadow:0 0 80px rgba(255,59,48,0.6);opacity:0;animation:shockReveal 1s .8s cubic-bezier(0.16,1,0.3,1) forwards;color:#fff;position:relative;z-index:2}
+.shock-currency{font-size:56px;vertical-align:top}
+.shock-warning{margin-top:24px;background:rgba(255,255,255,0.1);border-radius:100px;padding:8px 20px;font-size:11px;letter-spacing:3px;font-weight:800;opacity:0;animation:fadeUp .6s 2s forwards;position:relative;z-index:2}
+
+/* Score story */
+.score-comparison{margin-top:24px;display:flex;gap:16px;width:100%;max-width:340px;position:relative;z-index:2}
+.score-col{flex:1;text-align:center;opacity:0;animation:fadeUp .5s forwards}
+.score-col:nth-child(2){animation-delay:.4s}
+.score-col-label{font-size:11px;letter-spacing:2px;font-weight:800;opacity:0.8;margin-bottom:8px}
+.score-col-pct{font-size:48px;font-weight:900;line-height:1}
+.score-col-meta{font-size:11px;font-weight:700;opacity:0.7;margin-top:4px}
+
+/* =========== PROFILE CARD =========== */
+#screen-profile{padding:0;background:#000;overflow:hidden;justify-content:flex-start;padding-top:48px;align-items:center}
+.profile-eyebrow{font-size:11px;letter-spacing:5px;color:#FFD700;font-weight:800;margin-bottom:16px;text-align:center;opacity:0;animation:fadeUp .6s .2s forwards}
+.profile-card{width:88%;max-width:360px;aspect-ratio:9/16;border-radius:28px;padding:32px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:hidden;box-shadow:0 24px 80px rgba(255,20,147,0.25);opacity:0;animation:cardIn 1s .4s cubic-bezier(0.16,1,0.3,1) forwards}
+.profile-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.25),transparent 50%);pointer-events:none}
+.pc-header{font-size:11px;letter-spacing:5px;font-weight:800;margin-bottom:4px;opacity:0.85}
+.pc-year{font-size:14px;letter-spacing:3px;font-weight:900;margin-bottom:24px}
+.pc-emoji{font-size:120px;line-height:1;margin:auto 0}
+.pc-name{font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px;margin:8px 0 4px}
+.pc-archetype{font-size:11px;letter-spacing:4px;font-weight:700;opacity:0.85;margin-bottom:16px}
+.pc-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:auto 0 16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.3)}
+.pc-stat-val{font-size:24px;font-weight:900}
+.pc-stat-lbl{font-size:9px;letter-spacing:2px;font-weight:700;opacity:0.85;margin-top:2px}
+.pc-watermark{font-size:10px;letter-spacing:4px;font-weight:800;opacity:0.7}
+.profile-actions{width:100%;max-width:360px;margin-top:24px;display:flex;flex-direction:column;gap:10px;padding:0 12px}
+.profile-actions .btn{font-size:15px;padding:16px}
+
+/* =========== FINAL =========== */
+#screen-final{background:linear-gradient(180deg,#0F172A 0%,#000 100%);padding:32px 24px;overflow-y:auto}
+.final-head{text-align:center;margin:24px 0 32px}
+.final-tag{font-size:11px;letter-spacing:5px;color:#FFD700;font-weight:800;margin-bottom:12px}
+.final-title{font-size:42px;font-weight:900;line-height:1;letter-spacing:-2px;margin-bottom:12px}
+.final-title span{background:linear-gradient(90deg,#00FFB3,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.final-sub{font-size:15px;color:rgba(255,255,255,0.7);line-height:1.5;max-width:320px;margin:0 auto}
+.commitment{background:linear-gradient(135deg,rgba(0,255,179,0.15),rgba(255,215,0,0.1));border:1px solid rgba(0,255,179,0.3);border-radius:20px;padding:20px;margin-bottom:24px}
+.commit-label{font-size:10px;letter-spacing:3px;color:#00FFB3;font-weight:800;margin-bottom:8px}
+.commit-text{font-size:14px;line-height:1.5;margin-bottom:12px}
+.commit-input{width:100%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px;color:#fff;font-size:14px;font-family:inherit;-webkit-user-select:auto;user-select:auto}
+.commit-input:focus{outline:none;border-color:#00FFB3}
+.action-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:18px;margin-bottom:10px;backdrop-filter:blur(10px);cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .15s ease}
+.action-card:active{transform:scale(0.98);background:rgba(255,255,255,0.1)}
+.action-icon{font-size:32px;flex-shrink:0}
+.action-content{flex:1;text-align:left}
+.action-title{font-size:15px;font-weight:800;margin-bottom:2px}
+.action-desc{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.3}
+.final-share{margin-top:24px;background:linear-gradient(135deg,#FF1493,#FFD700);border-radius:20px;padding:24px;text-align:center;cursor:pointer}
+.final-share-emoji{font-size:48px;margin-bottom:8px}
+.final-share-title{font-size:20px;font-weight:900;color:#000;margin-bottom:4px}
+.final-share-sub{font-size:12px;color:rgba(0,0,0,0.7);font-weight:600}
+.final-stats{margin-top:24px;text-align:center;padding:16px;background:rgba(255,255,255,0.04);border-radius:16px}
+.final-stats-num{font-size:32px;font-weight:900;color:#00FFB3}
+.final-stats-lbl{font-size:11px;letter-spacing:2px;font-weight:700;color:rgba(255,255,255,0.6);margin-top:4px}
+.final-footer{margin-top:32px;text-align:center;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,0.35);line-height:1.6}
+
+/* =========== ANIMATIONS =========== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes heroIn{from{opacity:0;transform:translateY(40px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes emojiBig{from{opacity:0;transform:scale(0.3) rotate(-15deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes bounceIn{0%{transform:scale(0.5);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+@keyframes shockReveal{0%{opacity:0;transform:scale(2.5)}60%{opacity:1;transform:scale(0.85)}100%{opacity:1;transform:scale(1)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(60px) scale(0.85)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes storyEnter{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+@keyframes storyTimer{from{width:0%}to{width:100%}}
+@keyframes progressFill{from{width:20%}to{width:90%}}
+@keyframes barFill{from{width:0}to{width:var(--w,50%)}}
+@keyframes confettiFall{0%{transform:translateY(-10vh) rotate(0deg)}100%{transform:translateY(110vh) rotate(540deg)}}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ========== SPLASH ========== -->
+<div id="screen-splash" class="screen active">
+  <div class="sp-tag">PROGETTO NUDGE · 2026</div>
+  <div class="sp-title">TAX<br>WRAPPED<small>2026</small></div>
+  <div class="sp-sub">Il tuo anno fiscale, rivelato.</div>
+  <div class="sp-cta"><button class="btn" onclick="goTo('onboarding')">Comincia →</button></div>
+  <div class="sp-meta">"Quanto ne sai davvero,<br>di quello che pensi di sapere?"</div>
+</div>
+
+<!-- ========== ONBOARDING ========== -->
+<div id="screen-onboarding" class="screen">
+  <div class="onb-brand">AGENZIA DELLE ENTRATE · PROFILO CONTRIBUENTE</div>
+  <div class="onb-head">
+    <div class="onb-step">Step 1 di 3 · Identificazione</div>
+    <div class="onb-title">Costruiamo<br>il tuo profilo<br>fiscale.</div>
+  </div>
+  <div class="onb-q">
+    <div class="onb-q-text">Quanti anni hai?</div>
+    <div class="onb-opts" data-field="eta">
+      <div class="onb-opt" data-val="18-25">18-25</div>
+      <div class="onb-opt" data-val="26-35">26-35</div>
+      <div class="onb-opt" data-val="36-50">36-50</div>
+      <div class="onb-opt" data-val="50+">50+</div>
+    </div>
+  </div>
+  <div class="onb-q">
+    <div class="onb-q-text">Cosa fai principalmente?</div>
+    <div class="onb-opts" data-field="lavoro">
+      <div class="onb-opt" data-val="studente">Studio</div>
+      <div class="onb-opt" data-val="dipendente">Dipendente</div>
+      <div class="onb-opt" data-val="partita-iva">P.IVA / Freelance</div>
+      <div class="onb-opt" data-val="altro">Altro</div>
+    </div>
+  </div>
+  <div class="onb-q">
+    <div class="onb-q-text">Quale di questi ti riguarda?</div>
+    <div class="onb-opts" data-field="tools">
+      <div class="onb-opt" data-val="revolut">Revolut/N26</div>
+      <div class="onb-opt" data-val="crypto">Crypto</div>
+      <div class="onb-opt" data-val="figli">Figli a carico</div>
+      <div class="onb-opt" data-val="nessuno">Nessuno</div>
+    </div>
+  </div>
+  <div class="onb-cta">
+    <button id="onb-cta" class="btn btn-block" disabled onclick="startQuiz()">Inizia il quiz →</button>
+  </div>
+</div>
+
+<!-- ========== QUIZ ========== -->
+<div id="screen-quiz" class="screen">
+  <div class="qz-progress" id="qzProgress"></div>
+  <div class="qz-counter" id="qzCounter">DOMANDA 1 DI 10</div>
+  <div class="qz-setup" id="qzSetup"></div>
+  <div class="qz-emoji" id="qzEmoji"></div>
+  <div class="qz-scenario" id="qzScenario"></div>
+  <div class="qz-question" id="qzQuestion"></div>
+  <div class="qz-answers">
+    <button class="qz-btn si" onclick="answer('si')">💸 Sì, lo dichiaro</button>
+    <button class="qz-btn no" onclick="answer('no')">🤫 No, lascio stare</button>
+    <button class="qz-btn idk" onclick="answer('idk')">🤷 Non lo so</button>
+  </div>
+</div>
+
+<!-- ========== IMPACT OVERLAY ========== -->
+<div id="impact" class="impact">
+  <div class="impact-content">
+    <div class="impact-sign" id="impactSign">+</div>
+    <div class="impact-amount" id="impactAmount">€ 0</div>
+    <div class="impact-label" id="impactLabel"></div>
+  </div>
+</div>
+
+<!-- ========== STORIES ========== -->
+<div id="screen-stories" class="screen">
+  <div class="story-progress" id="storyProgress"></div>
+  <div id="storyContainer"></div>
+  <div class="story-tap-left" onclick="prevStory()"></div>
+  <div class="story-tap-right" onclick="nextStory()"></div>
+</div>
+
+<!-- ========== PROFILE CARD ========== -->
+<div id="screen-profile" class="screen scrollable">
+  <div class="profile-eyebrow">IL TUO TAX SPIRIT ANIMAL 2026</div>
+  <div class="profile-card" id="profileCard">
+    <div class="pc-header">TAX WRAPPED</div>
+    <div class="pc-year">2026</div>
+    <div class="pc-emoji" id="pcEmoji">🦊</div>
+    <div class="pc-name" id="pcName">Furbetto Inconsapevole</div>
+    <div class="pc-archetype" id="pcArchetype">ARCHETIPO #3 DI 4</div>
+    <div class="pc-stats">
+      <div>
+        <div class="pc-stat-val" id="pcScore">50%</div>
+        <div class="pc-stat-lbl">SCORE</div>
+      </div>
+      <div>
+        <div class="pc-stat-val" id="pcRisk">€ 0</div>
+        <div class="pc-stat-lbl">A RISCHIO</div>
+      </div>
+    </div>
+    <div class="pc-watermark">#TAXWRAPPED</div>
+  </div>
+  <div class="profile-actions">
+    <button class="btn btn-primary btn-block" onclick="shareCard()">📸 Condividi su Instagram</button>
+    <button class="btn btn-ghost btn-block" onclick="goTo('final')">Cosa faccio adesso? →</button>
+  </div>
+</div>
+
+<!-- ========== FINAL CTA ========== -->
+<div id="screen-final" class="screen scrollable">
+  <div class="final-head">
+    <div class="final-tag">ATTO 5 · L'IMPEGNO</div>
+    <div class="final-title">Adesso<br>tocca a <span>te</span>.</div>
+    <div class="final-sub">Hai visto quanto rischi. Ecco come dimezzare quel numero in 15 minuti.</div>
+  </div>
+
+  <div class="commitment">
+    <div class="commit-label">🤝 IL TUO IMPEGNO</div>
+    <div class="commit-text">Mi impegno a verificare la mia posizione fiscale entro <strong id="commitDate">il 30 giugno</strong>.</div>
+    <input class="commit-input" id="commitName" placeholder="Scrivi il tuo nome per firmare" maxlength="40">
+  </div>
+
+  <div class="action-card" onclick="downloadPromemoria()">
+    <div class="action-icon">📋</div>
+    <div class="action-content">
+      <div class="action-title">Scarica il tuo Promemoria</div>
+      <div class="action-desc">PDF con i punti su cui hai sbagliato + cosa fare</div>
+    </div>
+  </div>
+
+  <div class="action-card" onclick="setReminder()">
+    <div class="action-icon">⏰</div>
+    <div class="action-content">
+      <div class="action-title">Reminder 30 settembre</div>
+      <div class="action-desc">Scadenza 730 → calendario del tuo telefono</div>
+    </div>
+  </div>
+
+  <div class="action-card" onclick="openAdE()">
+    <div class="action-icon">🏛️</div>
+    <div class="action-content">
+      <div class="action-title">Vai su agenziaentrate.gov.it</div>
+      <div class="action-desc">Sezione "ravvedimento operoso" — riduci sanzioni fino al 90%</div>
+    </div>
+  </div>
+
+  <div class="final-share" onclick="shareGame()">
+    <div class="final-share-emoji">🎯</div>
+    <div class="final-share-title">SFIDA 3 AMICI</div>
+    <div class="final-share-sub">Vediamo chi rischia di perdere meno</div>
+  </div>
+
+  <div class="final-stats">
+    <div class="final-stats-num" id="finalStats">73%</div>
+    <div class="final-stats-lbl">DI CHI HA GIOCATO HA CAMBIATO COMPORTAMENTO*</div>
+  </div>
+
+  <div style="margin-top:24px">
+    <button class="btn btn-ghost btn-block" onclick="restart()">Rigioca da capo</button>
+  </div>
+
+  <div class="final-footer">
+    *Dato simulato a scopo dimostrativo per il progetto.<br>
+    TAX WRAPPED · Progetto Nudge · Design delle Scelte e Strategie Persuasive 2026<br>
+    Cifre stimate su normativa IT (D.Lgs. 471/97, D.L. 167/90, L. 197/2022, TUIR art. 15). Non costituisce consulenza fiscale.
+  </div>
+</div>
+
+</div>
+
+<script>
+// ============ STATE ============
+const state = {
+  profile:{eta:null, lavoro:null, tools:null},
+  answers:[],
+  currentQ:0,
+  totalLoss:0,      // sanzioni potenziali (errori su tipo:'sanzione')
+  totalMissed:0,    // detrazioni perse (errori su tipo:'detrazione')
+  totalGained:0,    // detrazioni ottenute correttamente
+  currentStory:0,
+  storyTimer:null,
+  currentProfile:null
+};
+
+// ============ QUESTIONS (10) ============
+// type: 'sanzione' = se sbagli paghi sanzione | 'detrazione' = se sbagli perdi rimborso
+const questions = [
+  {
+    emoji:"🥇💰",
+    setup:"MARZO 2026",
+    scenario:"Vendi <strong>3 lingotti d'oro</strong> ereditati per <strong>€4.500</strong>.",
+    question:"La vendita va dichiarata?",
+    correct:"si",
+    type:"sanzione",
+    importo:950,
+    commonError:"il 73% non sa di dover dichiarare la plusvalenza sull'oro",
+    tip:"Plusvalenza tassata al 26% (redditi diversi, quadro RT). Senza prezzo d'acquisto documentato, l'AdE può tassare l'intero ricavo.",
+    tricky:true
+  },
+  {
+    emoji:"👔🔄",
+    setup:"GIUGNO 2026",
+    scenario:"A giugno <strong>cambi datore di lavoro</strong>. Hai due Certificazioni Uniche per l'anno.",
+    question:"Devi fare il 730?",
+    correct:"si",
+    type:"sanzione",
+    importo:680,
+    commonError:"il 62% pensa che basti il conguaglio del nuovo datore",
+    tip:"Con 2 CU il nuovo datore non può conguagliare il precedente. Senza 730, l'IRPEF è sottostimata e si rischiano sanzioni 90-180%.",
+    tricky:true
+  },
+  {
+    emoji:"💳🇪🇺",
+    setup:"GIUGNO 2026",
+    scenario:"Apri <strong>Revolut</strong> per le vacanze, ci tieni 1.200€ tutto l'anno.",
+    question:"Va dichiarata?",
+    correct:"si",
+    type:"sanzione",
+    importo:850,
+    commonError:"l'87% degli under-30 con Revolut NON la dichiara",
+    tip:"Revolut ha IBAN lituano = conto estero. Quadro RW + IVAFE 34,20€/anno. Sanzione omissione: 3-15% del valore.",
+    tricky:true
+  },
+  {
+    emoji:"⚽👶",
+    setup:"ANNO SCOLASTICO",
+    scenario:"Tuo figlio fa <strong>calcio</strong>. Hai speso <strong>€500</strong> in iscrizione società sportiva.",
+    question:"Lo inserisci nel 730?",
+    correct:"si",
+    type:"detrazione",
+    importo:40, // 19% di 210 max
+    commonError:"il 51% dei genitori non sfrutta questa detrazione",
+    tip:"Detrazione 19% spese sportive figli 5-18 anni, max €210/figlio. Conserva ricevute con codice fiscale del figlio.",
+    tricky:false
+  },
+  {
+    emoji:"🏠🗝️",
+    setup:"AGOSTO 2026",
+    scenario:"Affitti la <strong>tua stanza su Airbnb</strong> 4 weekend in tutto l'anno. Incassi 600€.",
+    question:"Va dichiarato?",
+    correct:"si",
+    type:"sanzione",
+    importo:720,
+    commonError:"il 71% degli host occasionali NON dichiara",
+    tip:"Anche un solo giorno: cedolare secca 21% o IRPEF. Airbnb fa già da sostituto d'imposta dal 2024 ma DEVI comunque dichiararlo.",
+    tricky:true
+  },
+  {
+    emoji:"🎓🏠",
+    setup:"TUTTO L'ANNO",
+    scenario:"Tuo figlio è <strong>fuori sede</strong> a Bologna. Paghi <strong>€450/mese</strong> di affitto regolare.",
+    question:"Lo inserisci nel 730?",
+    correct:"si",
+    type:"detrazione",
+    importo:500, // 19% di 2633 max
+    commonError:"il 67% delle famiglie non lo dichiara",
+    tip:"Detrazione 19% su affitto figli fuori sede fino a €2.633/anno (recupero fino a ~€500). Contratto registrato + comune >100km.",
+    tricky:false
+  },
+  {
+    emoji:"🪙📱",
+    setup:"OTTOBRE 2026",
+    scenario:"Hai <strong>500€ in Bitcoin</strong> su Binance. Non li hai venduti, sono lì fermi.",
+    question:"Vanno dichiarati?",
+    correct:"si",
+    type:"sanzione",
+    importo:450,
+    commonError:"il 79% dei cripto-investitori italiani NON è in regola",
+    tip:"Crypto su exchange esteri = quadro RW + imposta bollo 0,2%. Obbligo dal 2023 (L.197/2022). Anche senza vendita, il possesso si dichiara.",
+    tricky:true
+  },
+  {
+    emoji:"🐶💊",
+    setup:"NOVEMBRE 2026",
+    scenario:"Hai pagato <strong>€680</strong> in spese veterinarie per il tuo cane.",
+    question:"Le inserisci nel 730?",
+    correct:"si",
+    type:"detrazione",
+    importo:80, // 19% di (550-129.11)
+    commonError:"l'82% dei padroni di animali NON lo sa",
+    tip:"Detrazione 19% su spese veterinarie, max €550/anno con franchigia €129,11. Solo per animali da compagnia, fatture tracciabili.",
+    tricky:true
+  },
+  {
+    emoji:"👨‍👩‍👧💸",
+    setup:"SETTEMBRE 2026",
+    scenario:"Tuo padre ti gira <strong>€5.000</strong> per pagare l'affitto universitario.",
+    question:"Vanno dichiarati come reddito?",
+    correct:"no",
+    type:"sanzione",
+    importo:1150,
+    commonError:"il 38% degli studenti dichiara erroneamente questo bonifico",
+    tip:"Donazioni in linea retta tra parenti = ESENTI fino a €1 milione. Causale 'mantenimento studi' tutela in caso di controllo.",
+    tricky:false
+  },
+  {
+    emoji:"👕🛍️",
+    setup:"ESTATE 2026",
+    scenario:"Vendi <strong>5 vestiti tuoi vecchi su Vinted</strong> per €380 totali.",
+    question:"Vanno dichiarati?",
+    correct:"no",
+    type:"sanzione",
+    importo:95,
+    commonError:"il 62% degli italiani teme inutilmente di doverlo dichiarare",
+    tip:"Vendita occasionale di beni usati personali NON è tassata. Diventa imponibile solo se diventa attività abituale (>€2.000/anno o >150 articoli).",
+    tricky:false
+  }
+];
+
+// ============ PROFILES ============
+const profiles = [
+  {range:[0,1],emoji:"🦉",name:"Compliant Premium",archetype:"ARCHETIPO 4 DI 4 · 7% DEGLI ITALIANI",colors:["#10B981","#FBBF24","#F97316"]},
+  {range:[2,4],emoji:"🦥",name:"Procrastinatore Cronico",archetype:"ARCHETIPO 3 DI 4 · 31% DEGLI ITALIANI",colors:["#FBBF24","#EC4899","#8B5CF6"]},
+  {range:[5,7],emoji:"🦊",name:"Furbetto Inconsapevole",archetype:"ARCHETIPO 2 DI 4 · 47% DEGLI ITALIANI",colors:["#EC4899","#8B5CF6","#FBBF24"]},
+  {range:[8,10],emoji:"🦅",name:"Ottimista Distratto",archetype:"ARCHETIPO 1 DI 4 · 15% DEGLI ITALIANI",colors:["#DC2626","#EC4899","#8B5CF6"]}
+];
+
+// ============ BIASES ============
+const biasMap = {
+  "ignoranza-fiscale":{name:"DUNNING-KRUGER",sub:"Bias dell'ignoranza inconsapevole",desc:"Non sai cosa non sai. E proprio per questo non lo cerchi."},
+  "ottimismo-irrazionale":{name:"OPTIMISM BIAS",sub:"\"Tanto a me non capita\"",desc:"Sottovaluti la probabilità di controlli. L'AdE ne fa 1,2 milioni l'anno."},
+  "avversione-ambiguita":{name:"AMBIGUITY AVERSION",sub:"Nel dubbio, paralisi",desc:"Preferisci non agire. Ma 'non agire' è già una scelta."},
+  "avversione-perdita-paranoica":{name:"LOSS AVERSION INVERSA",sub:"Dichiari pure quello che non serve",desc:"Per paura di sbagliare paghi tasse non dovute. Anche l'eccesso di zelo costa."},
+  "mental-accounting":{name:"MENTAL ACCOUNTING",sub:"\"I conti digitali non contano\"",desc:"Tratti Revolut e crypto come 'soldi finti'. L'AdE li conta tutti uguali."}
+};
+
+function detectBias(){
+  const idks = state.answers.filter(a=>a.idk).length;
+  // Indici domande "conti digitali": 2 (Revolut), 6 (Crypto)
+  const accountsWrong = [2,6].filter(i=>state.answers[i] && !state.answers[i].correct).length;
+  // Indici "no" corrette: 8 (Donazione), 9 (Vinted)
+  const overDeclareWrong = [8,9].filter(i=>state.answers[i] && state.answers[i].choice==='si').length;
+  const wrongAll = state.answers.filter(a=>!a.correct).length;
+  if(overDeclareWrong>=2) return "avversione-perdita-paranoica";
+  if(accountsWrong>=2) return "mental-accounting";
+  if(idks>=4) return "avversione-ambiguita";
+  if(wrongAll>=5) return "ottimismo-irrazionale";
+  return "ignoranza-fiscale";
+}
+
+// ============ NAV ============
+function goTo(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const t = document.getElementById('screen-'+name);
+  if(t){t.classList.add('active');t.scrollTop=0}
+  if(name==='stories') startStories();
+  if(name==='profile') showProfile();
+  if(name==='final') initFinal();
+}
+
+// ============ ONBOARDING ============
+document.querySelectorAll('.onb-opts').forEach(g=>{
+  g.addEventListener('click',e=>{
+    if(!e.target.classList.contains('onb-opt')) return;
+    const f = g.dataset.field;
+    g.querySelectorAll('.onb-opt').forEach(o=>o.classList.remove('selected'));
+    e.target.classList.add('selected');
+    state.profile[f] = e.target.dataset.val;
+    if(state.profile.eta && state.profile.lavoro && state.profile.tools){
+      document.getElementById('onb-cta').disabled = false;
+    }
+  });
+});
+
+// ============ QUIZ ============
+function startQuiz(){
+  if(!state.profile.eta || !state.profile.lavoro || !state.profile.tools) return;
+  const bars = document.getElementById('qzProgress');
+  bars.innerHTML = '';
+  for(let i=0;i<questions.length;i++){
+    const b = document.createElement('div');
+    b.className='qz-bar';
+    bars.appendChild(b);
+  }
+  state.currentQ = 0;
+  state.answers = [];
+  state.totalLoss = 0;
+  state.totalMissed = 0;
+  state.totalGained = 0;
+  renderQ();
+  goTo('quiz');
+}
+
+function renderQ(){
+  const q = questions[state.currentQ];
+  const bars = document.querySelectorAll('.qz-bar');
+  bars.forEach((b,i)=>{
+    b.className='qz-bar';
+    if(i<state.currentQ) b.classList.add('done');
+    if(i===state.currentQ) b.classList.add('current');
+  });
+  document.getElementById('qzCounter').textContent = `DOMANDA ${state.currentQ+1} DI ${questions.length}`;
+  document.getElementById('qzSetup').textContent = q.setup;
+  document.getElementById('qzEmoji').textContent = q.emoji;
+  document.getElementById('qzScenario').innerHTML = q.scenario;
+  document.getElementById('qzQuestion').textContent = q.question;
+  const e = document.getElementById('qzEmoji');
+  e.style.animation='none'; void e.offsetWidth; e.style.animation='bounceIn .6s ease';
+}
+
+function answer(c){
+  const q = questions[state.currentQ];
+  const right = (c === q.correct);
+  const idk = (c === 'idk');
+  state.answers.push({choice:c, correct:right, idk, sanzione:q.importo, tipo:q.type});
+
+  // accumulate amounts based on type and correctness
+  if(q.type === 'sanzione'){
+    if(!right && !idk) state.totalLoss += q.importo;
+    if(idk) state.totalLoss += Math.round(q.importo*0.4);
+  } else { // detrazione
+    if(right) state.totalGained += q.importo;
+    if(!right && !idk) state.totalMissed += q.importo;
+    if(idk) state.totalMissed += Math.round(q.importo*0.4);
+  }
+
+  showImpact(right, idk, q);
+}
+
+function showImpact(right, idk, q){
+  const imp = document.getElementById('impact');
+  const sign = document.getElementById('impactSign');
+  const amt = document.getElementById('impactAmount');
+  const lbl = document.getElementById('impactLabel');
+
+  imp.className = 'impact show';
+  imp.innerHTML = '';
+  const content = document.createElement('div');
+  content.className = 'impact-content';
+  let signTxt, amountTxt, labelTxt, emojis, displayAmt;
+
+  if(idk){
+    imp.classList.add('idk');
+    signTxt='?';
+    displayAmt = Math.round(q.importo*0.4);
+    amountTxt = '€ ' + displayAmt.toLocaleString('it-IT');
+    labelTxt = q.type==='detrazione' ? 'RIMBORSO INCERTO' : (q.correct==='no' ? 'INCERTEZZA COSTOSA' : 'INCERTEZZA = RISCHIO');
+    emojis = ['🤷','❓','💭','⏳','🤔'];
+  } else if(right){
+    imp.classList.add('gain');
+    signTxt='+';
+    displayAmt = q.importo;
+    amountTxt = '€ ' + displayAmt.toLocaleString('it-IT');
+    if(q.type==='detrazione') labelTxt = 'RIMBORSO OTTENUTO';
+    else if(q.correct==='no') labelTxt = 'TASSE NON DOVUTE EVITATE';
+    else labelTxt = 'SANZIONE EVITATA';
+    emojis = ['💰','💵','💶','🪙','✨','💎','🎉'];
+  } else {
+    imp.classList.add('loss');
+    signTxt='−';
+    displayAmt = q.importo;
+    amountTxt = '€ ' + displayAmt.toLocaleString('it-IT');
+    if(q.type==='detrazione') labelTxt = 'RIMBORSO PERSO';
+    else if(q.correct==='no') labelTxt = 'TASSE NON DOVUTE PAGATE';
+    else labelTxt = 'SANZIONE SUBITA';
+    emojis = ['💸','💔','📉','⚠️','😱'];
+  }
+
+  content.innerHTML = `
+    <div class="impact-sign">${signTxt}</div>
+    <div class="impact-amount">${amountTxt}</div>
+    <div class="impact-label">${labelTxt}</div>
+  `;
+  imp.appendChild(content);
+
+  // generate floating emojis
+  for(let i=0;i<14;i++){
+    const e = document.createElement('div');
+    e.className='impact-emoji';
+    e.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const angle = Math.random()*Math.PI*2;
+    const dist = 200 + Math.random()*200;
+    const xs = Math.cos(angle)*dist + 'px';
+    const ys = Math.sin(angle)*dist + 'px';
+    const xe = Math.cos(angle)*window.innerWidth + 'px';
+    const ye = Math.sin(angle)*window.innerHeight + 'px';
+    e.style.left = '50%';
+    e.style.top = '50%';
+    e.style.setProperty('--xs', xs);
+    e.style.setProperty('--ys', ys);
+    e.style.setProperty('--xe', xe);
+    e.style.setProperty('--ye', ye);
+    e.style.animationDelay = (Math.random()*0.3) + 's';
+    e.style.fontSize = (Math.random()*30+40) + 'px';
+    imp.appendChild(e);
+  }
+
+  // auto-advance
+  setTimeout(()=>{
+    imp.className='impact';
+    imp.innerHTML = '<div class="impact-content"><div class="impact-sign" id="impactSign">+</div><div class="impact-amount" id="impactAmount">€ 0</div><div class="impact-label" id="impactLabel"></div></div>';
+    nextQuestion();
+  }, 1800);
+}
+
+function nextQuestion(){
+  state.currentQ++;
+  if(state.currentQ >= questions.length){
+    setTimeout(()=>goTo('stories'), 200);
+  } else {
+    setTimeout(renderQ, 100);
+  }
+}
+
+// ============ STORIES (WRAPPED) ============
+function buildStories(){
+  const right = state.answers.filter(a=>a.correct).length;
+  const wrong = state.answers.length - right;
+  const rightPct = Math.round(right/10*100);
+  const wrongPct = 100 - rightPct;
+  const projectedLoss = Math.round((state.totalLoss + state.totalMissed) * 4.5);
+  const totalMissedDetrazioni = state.totalMissed + state.totalGained; // potenziale totale
+  const possibleRecover = state.totalMissed; // quello che hai perso ma puoi recuperare
+  const bias = biasMap[detectBias()];
+
+  // Top 3 errors
+  const worstMistakes = state.answers
+    .map((a,i)=>({...a, q:questions[i], idx:i}))
+    .filter(a=>!a.correct && a.q.importo>0)
+    .sort((a,b)=>b.q.importo - a.q.importo)
+    .slice(0,3);
+
+  // comparison stat
+  const avgItalianScore = rightPct >= 60 ? 47 : (rightPct >= 30 ? 52 : 38);
+
+  // common mistakes in Italy (top 4)
+  const commonItalyErrors = [
+    {pct:"87%", text:"non dichiara Revolut/PayPal"},
+    {pct:"79%", text:"omette crypto detenute"},
+    {pct:"71%", text:"non dichiara affitti brevi"},
+    {pct:"67%", text:"perde detrazioni mediche/veterinarie"}
+  ];
+
+  const personalErrors = state.answers
+    .map((a,i)=>({a, q:questions[i]}))
+    .filter(o=>!o.a.correct)
+    .slice(0,3);
+
+  const stories = [];
+
+  // ---------- 1. INTRO ----------
+  stories.push({
+    bg:"bg-intro",
+    dur:3500,
+    html:`
+      <div class="float-deco d1">💰</div>
+      <div class="float-deco d2">📊</div>
+      <div class="float-deco d3">🇮🇹</div>
+      <div class="float-deco d4">💸</div>
+      <div class="st-eyebrow">TAX WRAPPED 2026</div>
+      <div class="st-hero" style="color:#000">È ORA<br>DEL TUO<br>RECAP.</div>
+      <div class="st-label" style="color:#000;font-weight:700">Quello che il tuo commercialista<br>non ti dice ad alta voce.</div>
+    `
+  });
+
+  // ---------- 2. SCORE % ----------
+  stories.push({
+    bg: rightPct>=70?"bg-celebration":(rightPct>=40?"bg-yellow":"bg-red"),
+    dur:5000,
+    html:`
+      ${rightPct>=70?`<div class="confetti">${'<span style="left:'+Math.random()*100+'%;animation-delay:'+Math.random()*4+'s">🎉</span>'.repeat(8)}${'<span style="left:'+Math.random()*100+'%;animation-delay:'+Math.random()*4+'s">✨</span>'.repeat(6)}</div>`:''}
+      <div class="st-eyebrow" ${rightPct>=70?'':'style="color:#000"'}>HAI RISPOSTO CORRETTAMENTE AL</div>
+      <div class="st-percent" ${rightPct>=70?'':'style="color:#000"'}>${rightPct}<small>%</small></div>
+      <div class="st-label" ${rightPct>=70?'':'style="color:#000;font-weight:800"'}>${rightPct>=70?'Sei nel TOP 30% degli italiani.':rightPct>=40?'Sotto la media. C\'è margine.':'Solo il 12% fa peggio di te.'}</div>
+      <div class="st-caption" ${rightPct>=70?'':'style="color:#000;opacity:1;font-weight:600"'}>delle <strong>10 trappole fiscali</strong> più comuni</div>
+    `
+  });
+
+  // ---------- 3. COMPARISON STORY ----------
+  stories.push({
+    bg:"bg-night",
+    dur:5500,
+    html:`
+      <div class="st-eyebrow">TU VS L'ITALIA</div>
+      <div class="score-comparison">
+        <div class="score-col">
+          <div class="score-col-label">TU</div>
+          <div class="score-col-pct" style="color:${rightPct>=avgItalianScore?'#00FFB3':'#FF3B30'}">${rightPct}%</div>
+          <div class="score-col-meta">risposte ok</div>
+        </div>
+        <div class="score-col">
+          <div class="score-col-label">MEDIA ITALIA</div>
+          <div class="score-col-pct" style="color:#FFD700">${avgItalianScore}%</div>
+          <div class="score-col-meta">italian average</div>
+        </div>
+      </div>
+      <div class="st-label">${rightPct>=avgItalianScore?'Sei sopra la media.<br>Ma "media" in Italia è già un problema.':'Sei sotto la media nazionale.<br>E la media non è alta.'}</div>
+    `
+  });
+
+  // ---------- 4. GLI ERRORI PIÙ COMUNI ----------
+  stories.push({
+    bg:"bg-purple",
+    dur:6500,
+    html:`
+      <div class="st-eyebrow">GLI ERRORI PIÙ COMUNI IN ITALIA</div>
+      <div class="st-bars" style="color:#FFD700">
+        ${commonItalyErrors.map(e=>`
+          <div class="st-bar">
+            <div class="st-bar-head"><span>${e.text}</span><span class="st-bar-pct">${e.pct}</span></div>
+            <div class="st-bar-fill"><span style="--w:${e.pct}"></span></div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="st-caption" style="margin-top:20px">Tu fai parte di una maggioranza<br>che <strong>perde miliardi</strong> ogni anno.</div>
+    `
+  });
+
+  // ---------- 5. I TUOI ERRORI ----------
+  if(personalErrors.length>0){
+    stories.push({
+      bg:"bg-pinkfade",
+      dur:6500,
+      html:`
+        <div class="st-eyebrow">I TUOI ERRORI PIÙ COSTOSI</div>
+        <div class="st-list">
+          ${personalErrors.map((p,i)=>`
+            <div class="st-list-item">
+              <div class="st-list-rank">${i+1}</div>
+              <div class="st-list-content">
+                <div class="st-list-title">${p.q.emoji} ${p.q.scenario.replace(/<[^>]+>/g,'').slice(0,55)}...</div>
+                <div class="st-list-meta">${p.q.commonError.toUpperCase()}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="st-caption" style="margin-top:18px">Non sei solo. La massa fa il tuo stesso errore.<br><strong>Ma adesso lo sai.</strong></div>
+      `
+    });
+  }
+
+  // ---------- 6. BIAS DOMINANTE ----------
+  stories.push({
+    bg:"bg-deep",
+    dur:5500,
+    html:`
+      <div class="st-eyebrow">IL TUO BIAS DOMINANTE</div>
+      <div class="st-hero-md" style="background:linear-gradient(90deg,#FFD700,#FF1493);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${bias.name}</div>
+      <div class="st-label" style="font-style:italic;color:#FFD700">${bias.sub}</div>
+      <div class="st-caption">${bias.desc}</div>
+    `
+  });
+
+  // ---------- 7. SHOCK REVEAL ----------
+  stories.push({
+    bg:"bg-shock",
+    dur:6500,
+    html:`
+      <div class="float-deco d1">💸</div>
+      <div class="float-deco d2">📉</div>
+      <div class="float-deco d4">⚠️</div>
+      <div class="st-eyebrow" style="color:#FF3B30">A 5 ANNI POTRESTI PERDERE</div>
+      <div class="shock-num"><span class="shock-currency">€</span>${projectedLoss.toLocaleString('it-IT')}</div>
+      <div class="st-caption">tra <strong>sanzioni</strong> e <strong>detrazioni mancate</strong>.</div>
+      <div class="shock-warning">⚠️ STIMA SU SANZIONI REALI AdE</div>
+    `
+  });
+
+  // ---------- 8. SOCIAL PROOF: 87% PAGA ----------
+  stories.push({
+    bg:"bg-celebration",
+    dur:5500,
+    html:`
+      ${'<div class="confetti">'+Array.from({length:14}).map(()=>`<span style="left:${Math.random()*100}%;animation-delay:${Math.random()*4}s">${['🇮🇹','✨','💚','⭐','🎉'][Math.floor(Math.random()*5)]}</span>`).join('')+'</div>'}
+      <div class="st-eyebrow" style="color:#000">PERÒ, BUONA NOTIZIA</div>
+      <div class="st-percent" style="color:#000">87<small>%</small></div>
+      <div class="st-label" style="color:#000;font-weight:800">degli italiani <strong>paga</strong> le tasse.</div>
+      <div class="st-caption" style="color:#000;font-weight:600;opacity:1">Sei in compagnia della maggioranza.<br>Manca solo metterti in regola.</div>
+    `
+  });
+
+  // ---------- 9. ITALIA 2023: SANZIONI ----------
+  stories.push({
+    bg:"bg-orange",
+    dur:6000,
+    html:`
+      <div class="float-deco d2" style="color:#000;opacity:0.25">💰</div>
+      <div class="float-deco d3" style="color:#000;opacity:0.25">📑</div>
+      <div class="st-eyebrow" style="color:#000">L'ITALIA NEL 2023 HA PAGATO</div>
+      <div class="st-hero" style="color:#000">€31,5<small style="font-size:36px;display:block;letter-spacing:4px;margin-top:8px">MILIARDI</small></div>
+      <div class="st-label" style="color:#000;font-weight:800">in <strong>sanzioni fiscali</strong> recuperate dall'AdE.</div>
+      <div class="st-caption" style="color:#000;font-weight:600;opacity:1">Soldi che potevano restare<br>nelle tasche degli italiani.</div>
+    `
+  });
+
+  // ---------- 10. DOVE VANNO LE TASSE ----------
+  stories.push({
+    bg:"bg-civic",
+    dur:7000,
+    html:`
+      <div class="st-eyebrow" style="color:#000">DOVE VANNO LE TUE TASSE</div>
+      <div class="st-bars" style="color:#000">
+        <div class="st-bar">
+          <div class="st-bar-head"><span>🏥 Sanità pubblica</span><span class="st-bar-pct">17%</span></div>
+          <div class="st-bar-fill"><span style="--w:60%"></span></div>
+        </div>
+        <div class="st-bar">
+          <div class="st-bar-head"><span>👴 Pensioni & welfare</span><span class="st-bar-pct">30%</span></div>
+          <div class="st-bar-fill"><span style="--w:100%"></span></div>
+        </div>
+        <div class="st-bar">
+          <div class="st-bar-head"><span>🎓 Istruzione</span><span class="st-bar-pct">10%</span></div>
+          <div class="st-bar-fill"><span style="--w:33%"></span></div>
+        </div>
+        <div class="st-bar">
+          <div class="st-bar-head"><span>🚇 Infrastrutture</span><span class="st-bar-pct">8%</span></div>
+          <div class="st-bar-fill"><span style="--w:27%"></span></div>
+        </div>
+        <div class="st-bar">
+          <div class="st-bar-head"><span>🛡️ Sicurezza & difesa</span><span class="st-bar-pct">5%</span></div>
+          <div class="st-bar-fill"><span style="--w:17%"></span></div>
+        </div>
+      </div>
+      <div class="st-caption" style="color:#000;font-weight:700;margin-top:18px;opacity:1">1 ora del tuo lavoro =<br>1 ora di scuola per un bambino.</div>
+    `
+  });
+
+  // ---------- 11. BENEFICI CONCRETI ----------
+  stories.push({
+    bg:"bg-mint",
+    dur:6000,
+    html:`
+      <div class="st-eyebrow" style="color:#000">LE TUE TASSE PAGANO</div>
+      <div class="st-emoji-row">
+        <span>🏥</span><span>🚑</span><span>👮</span><span>🎓</span><span>🚇</span>
+      </div>
+      <div class="st-hero-md" style="color:#000">Ti curano.<br>Ti formano.<br>Ti proteggono.</div>
+      <div class="st-caption" style="color:#000;font-weight:700;opacity:1">Pagare è il modo più diretto<br>di prendersi cura di sé.</div>
+    `
+  });
+
+  // ---------- 12. DETRAZIONI PERSE / RECUPERABILI ----------
+  stories.push({
+    bg: possibleRecover>0?"bg-yellow":"bg-emerald",
+    dur:7000,
+    html:`
+      ${'<div class="confetti">'+Array.from({length:10}).map(()=>`<span style="left:${Math.random()*100}%;animation-delay:${Math.random()*4}s">💰</span>`).join('')+'</div>'}
+      <div class="st-eyebrow" style="color:#000">${possibleRecover>0?'AVRESTI POTUTO RECUPERARE':'AVRESTI POTUTO INCASSARE'}</div>
+      <div class="st-hero" style="color:#000">€${(possibleRecover>0?possibleRecover:state.totalGained).toLocaleString('it-IT')}</div>
+      <div class="st-label" style="color:#000;font-weight:800">${possibleRecover>0?'in <strong>detrazioni perse</strong> nel 2026.':'in detrazioni <strong>già tue</strong>.'}</div>
+      <div class="st-caption" style="color:#000;font-weight:600;opacity:1">${possibleRecover>0?'Sport figli, affitti, veterinario, mediche…<br>Sono soldi che lo Stato ti rimborsa<br>SE li dichiari.':'Sport figli, affitti, veterinario, mediche.<br>Hai fatto bene a dichiarare.'}</div>
+    `
+  });
+
+  // ---------- 13. POTENZIALE ANNO PROSSIMO ----------
+  const detrazPotenziale = 40+500+80; // sport+affitto+vet medi
+  stories.push({
+    bg:"bg-emerald",
+    dur:6000,
+    html:`
+      <div class="float-deco d1" style="color:#000;opacity:0.3">💸</div>
+      <div class="float-deco d4" style="color:#000;opacity:0.3">🎁</div>
+      <div class="st-eyebrow" style="color:#000">UNA FAMIGLIA TIPO RECUPERA</div>
+      <div class="st-hero" style="color:#000">€${detrazPotenziale}<small style="font-size:30px;display:block;letter-spacing:3px;margin-top:8px">L'ANNO</small></div>
+      <div class="st-label" style="color:#000;font-weight:800">dalle detrazioni del 19%.</div>
+      <div class="st-caption" style="color:#000;font-weight:600;opacity:1">Veterinarie + sport figli + affitto fuori sede.<br><strong>Ma il 60% non le sfrutta.</strong></div>
+    `
+  });
+
+  // ---------- 14. TWIST: BUONA NOTIZIA ----------
+  stories.push({
+    bg:"bg-emerald",
+    dur:6000,
+    html:`
+      <div class="st-eyebrow" style="color:#000">MA C'È UNA BUONA NOTIZIA</div>
+      <div class="st-hero-md" style="color:#000">IL 73%<br>RIMEDIA<br>IN TEMPO.</div>
+      <div class="st-label" style="color:#000;font-weight:700">Si chiama <strong>ravvedimento operoso</strong>.<br>Bastano 15 minuti e una password SPID.</div>
+      <div class="st-caption" style="color:#000;font-weight:600;opacity:1">Sanzioni ridotte fino al 90%.<br>L'AdE preferisce così.</div>
+    `
+  });
+
+  return stories;
+}
+
+let activeStories = [];
+function startStories(){
+  activeStories = buildStories();
+  state.currentStory = 0;
+  const prog = document.getElementById('storyProgress');
+  prog.innerHTML = activeStories.map(()=>`<div class="sp-bar"><span class="sp-bar-fill"></span></div>`).join('');
+  const cont = document.getElementById('storyContainer');
+  cont.innerHTML = activeStories.map((s,i)=>`<div class="story ${s.bg}" data-idx="${i}" style="--dur:${s.dur}ms">${s.html}</div>`).join('');
+  showStory(0);
+}
+
+function showStory(idx){
+  if(idx<0) idx=0;
+  if(idx>=activeStories.length){ goTo('profile'); return; }
+  clearTimeout(state.storyTimer);
+  state.currentStory = idx;
+  document.querySelectorAll('.story').forEach((s,i)=>{
+    s.classList.toggle('active', i===idx);
+  });
+  document.querySelectorAll('.sp-bar').forEach((b,i)=>{
+    b.classList.remove('done','current');
+    const fill = b.querySelector('.sp-bar-fill');
+    fill.style.animation='none'; void fill.offsetWidth;
+    if(i<idx) b.classList.add('done');
+    if(i===idx){
+      b.classList.add('current');
+      b.style.setProperty('--dur', activeStories[idx].dur+'ms');
+    }
+  });
+  state.storyTimer = setTimeout(()=>showStory(idx+1), activeStories[idx].dur);
+}
+
+function nextStory(){ showStory(state.currentStory+1); }
+function prevStory(){ showStory(state.currentStory-1); }
+
+// ============ PROFILE ============
+function showProfile(){
+  const right = state.answers.filter(a=>a.correct).length;
+  const wrong = state.answers.length - right;
+  const p = profiles.find(p=>wrong>=p.range[0] && wrong<=p.range[1]);
+  const card = document.getElementById('profileCard');
+  card.style.background = `linear-gradient(135deg, ${p.colors[0]} 0%, ${p.colors[1]} 50%, ${p.colors[2]} 100%)`;
+  document.getElementById('pcEmoji').textContent = p.emoji;
+  document.getElementById('pcName').textContent = p.name;
+  document.getElementById('pcArchetype').textContent = p.archetype;
+  document.getElementById('pcScore').textContent = (right*10) + '%';
+  document.getElementById('pcRisk').textContent = '€ ' + Math.round((state.totalLoss+state.totalMissed)*4.5).toLocaleString('it-IT');
+  state.currentProfile = p;
+}
+
+// ============ SHARE CARD ============
+async function shareCard(){
+  const right = state.answers.filter(a=>a.correct).length;
+  const loss = Math.round((state.totalLoss+state.totalMissed)*4.5);
+  const p = state.currentProfile;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080; canvas.height = 1920;
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createLinearGradient(0,0,1080,1920);
+  g.addColorStop(0,p.colors[0]); g.addColorStop(0.5,p.colors[1]); g.addColorStop(1,p.colors[2]);
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,1080,1920);
+  const ovl = ctx.createRadialGradient(320,400,0,540,960,1100);
+  ovl.addColorStop(0,'rgba(255,255,255,0.25)');
+  ovl.addColorStop(1,'rgba(0,0,0,0.15)');
+  ctx.fillStyle = ovl; ctx.fillRect(0,0,1080,1920);
+  ctx.textAlign='center'; ctx.fillStyle='#fff';
+  ctx.font = '800 36px -apple-system, sans-serif';
+  ctx.fillText('TAX  WRAPPED', 540, 160);
+  ctx.font = '900 72px -apple-system, sans-serif';
+  ctx.fillText('2026', 540, 240);
+  ctx.font = '320px "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+  ctx.fillText(p.emoji, 540, 720);
+  ctx.fillStyle = '#fff';
+  ctx.font = '900 80px -apple-system, sans-serif';
+  wrapText(ctx, p.name.toUpperCase(), 540, 900, 900, 90);
+  ctx.font = '700 28px -apple-system, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.fillText(p.archetype, 540, 1080);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillRect(190,1200,700,2);
+  ctx.fillStyle = '#fff';
+  ctx.font = '800 32px -apple-system, sans-serif';
+  ctx.fillText('SCORE', 320, 1290);
+  ctx.fillText('A RISCHIO 5Y', 760, 1290);
+  ctx.font = '900 90px -apple-system, sans-serif';
+  ctx.fillText((right*10)+'%', 320, 1390);
+  ctx.fillStyle = '#FFD700';
+  ctx.fillText('€'+loss.toLocaleString('it-IT'), 760, 1390);
+  ctx.fillStyle = '#fff';
+  ctx.font = '700 38px -apple-system, sans-serif';
+  wrapText(ctx, '"Pensi di sapere?\nFai il test."', 540, 1640, 900, 50);
+  ctx.font = '900 32px -apple-system, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.fillText('#TAXWRAPPED2026', 540, 1820);
+
+  const blob = await new Promise(r=>canvas.toBlob(r,'image/png',0.92));
+  const file = new File([blob], 'tax-wrapped-2026.png', {type:'image/png'});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try {
+      await navigator.share({files:[file], title:'Tax Wrapped 2026', text:`Ho rischiato € ${loss.toLocaleString('it-IT')}! Quanto rischi tu? 🎯`});
+      return;
+    } catch(e){}
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'tax-wrapped-2026.png';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  alert('Card scaricata! Condividila su Instagram Stories 📸');
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const lines = text.split('\n');
+  lines.forEach((line, idx)=>{ ctx.fillText(line, x, y + idx*lineHeight); });
+}
+
+// ============ FINAL ============
+function initFinal(){
+  const d = new Date(); d.setMonth(d.getMonth()+1); d.setDate(0);
+  const months = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+  document.getElementById('commitDate').textContent = 'il '+d.getDate()+' '+months[d.getMonth()];
+}
+
+function downloadPromemoria(){
+  const wrongs = state.answers.map((a,i)=>({...a, q:questions[i]})).filter(a=>!a.correct);
+  const right = state.answers.filter(a=>a.correct).length;
+  let txt = "TAX WRAPPED 2026 — PROMEMORIA FISCALE\n";
+  txt += "Generato il "+new Date().toLocaleDateString('it-IT')+"\n";
+  txt += "================================\n\n";
+  txt += "Score: "+(right*10)+"% di risposte corrette\n";
+  txt += "Errori commessi: "+wrongs.length+"/"+questions.length+"\n\n";
+  if(wrongs.length===0){
+    txt += "Hai risposto correttamente a tutto. Resta aggiornato.\n";
+  } else {
+    txt += "I tuoi punti deboli:\n\n";
+    wrongs.forEach((w,i)=>{
+      txt += `[${i+1}] ${w.q.setup} — ${w.q.scenario.replace(/<[^>]+>/g,'')}\n`;
+      txt += `→ Tipologia: ${w.q.type==='sanzione'?'rischio sanzione':'detrazione persa'}\n`;
+      txt += `→ Importo: ~€ ${w.q.importo}\n`;
+      txt += `💡 COSA FARE: ${w.q.tip}\n`;
+      txt += `📊 ${w.q.commonError}\n\n`;
+    });
+  }
+  txt += "================================\n";
+  txt += "Rischio totale 5 anni: € "+Math.round((state.totalLoss+state.totalMissed)*4.5).toLocaleString('it-IT')+"\n";
+  txt += "Detrazioni recuperabili: € "+state.totalMissed.toLocaleString('it-IT')+"\n";
+  txt += "\nPer rimediare:\n";
+  txt += "1. agenziaentrate.gov.it → ravvedimento operoso (sanzioni -90%)\n";
+  txt += "2. Conserva ricevute spese detraibili (vet, sport figli, affitti)\n";
+  txt += "3. Se hai dubbi: commercialista (€80-150 una tantum)\n";
+  txt += "\nNon costituisce consulenza fiscale.";
+  const blob = new Blob([txt],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'tax-wrapped-promemoria.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function setReminder(){
+  const start = new Date('2026-09-30T09:00:00');
+  const end = new Date('2026-09-30T10:00:00');
+  const fmt = d=>d.toISOString().replace(/[-:]|\.\d{3}/g,'');
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//TaxWrapped//IT',
+    'BEGIN:VEVENT',
+    'UID:'+Date.now()+'@taxwrapped',
+    'DTSTAMP:'+fmt(new Date()),
+    'DTSTART:'+fmt(start),
+    'DTEND:'+fmt(end),
+    'SUMMARY:Scadenza 730 / Dichiarazione',
+    'DESCRIPTION:Da Tax Wrapped 2026 - controlla Revolut\\, crypto\\, affitti brevi\\, detrazioni mediche/sport/vet',
+    'BEGIN:VALARM','TRIGGER:-P7D','ACTION:DISPLAY','DESCRIPTION:Manca 1 settimana al 730','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics],{type:'text/calendar'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = '730-reminder.ics';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function openAdE(){
+  window.open('https://www.agenziaentrate.gov.it/portale/web/guest/schede/dichiarazioni/dichiarazione-integrativa-ravvedimento-operoso','_blank');
+}
+
+function shareGame(){
+  const loss = Math.round((state.totalLoss+state.totalMissed)*4.5);
+  const right = state.answers.filter(a=>a.correct).length;
+  const text = `Ho fatto solo il ${right*10}% sul Tax Wrapped 2026 😱 Rischio € ${loss.toLocaleString('it-IT')} in sanzioni.\n\nFammi vedere quanto fai tu 👉`;
+  const url = location.href;
+  if(navigator.share){
+    navigator.share({title:'Tax Wrapped 2026', text, url}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text+'\n'+url).then(()=>{
+      alert('Testo copiato! Incolla su WhatsApp o Instagram.');
+    }).catch(()=>{
+      prompt('Copia e condividi:', text+'\n'+url);
+    });
+  }
+}
+
+function restart(){
+  state.profile = {eta:null, lavoro:null, tools:null};
+  state.answers = []; state.currentQ = 0;
+  state.totalLoss = 0; state.totalMissed = 0; state.totalGained = 0;
+  state.currentStory = 0;
+  clearTimeout(state.storyTimer);
+  document.querySelectorAll('.onb-opt.selected').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('onb-cta').disabled = true;
+  goTo('splash');
+}
+</script>
+</body>
+</html>
